@@ -168,18 +168,42 @@ function crushBoard() {
 
   // 2) Check are there matched candies (three in row)
   for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols - 2; c++) {
+    for (let c = 0; c < cols; c++) {
       // 1)
-      const threeInRow = [board[r][c], board[r][c + 1], board[r][c + 2]];
-
-      // 2) Are they matched
-      if (matchedCandies(threeInRow)) {
-        console.log(threeInRow);
+      const candiesInRow = board[r].slice();
+      console.log(`Row: ${r}`);
+      console.log(candiesInRow);
+      console.log("--------------------------------------------------------");
+      // 2)
+      let sameCandiesInRow = [];
+      // 3)
+      for (let i = 0; i < candiesInRow.length; i++) {
+        // 1)
+        const lastCandyInRow = sameCandiesInRow[sameCandiesInRow.length - 1];
+        // 2)
+        const siblingCandy = candiesInRow[i];
+        // 3)
+        if (
+          lastCandyInRow?.candy === siblingCandy?.candy ||
+          sameCandiesInRow.length === 0
+        ) {
+          sameCandiesInRow.push(siblingCandy);
+        } else {
+          if (sameCandiesInRow.length < 3) {
+            sameCandiesInRow = [];
+            sameCandiesInRow.push(siblingCandy);
+          }
+        }
+      }
+      // 3)
+      if (sameCandiesInRow.length > 2 && matchedCandies(sameCandiesInRow)) {
         // If they are, crush them!
-        crushCandies(threeInRow);
+        crushCandies(sameCandiesInRow);
         //
         didCrushHappen = true;
       }
+
+      break;
     }
   }
 
@@ -187,14 +211,45 @@ function crushBoard() {
   for (let c = 0; c < cols; c++) {
     for (let r = 0; r < rows - 2; r++) {
       // 1)
-      const threeInRow = [board[r][c], board[r + 1][c], board[r + 2][c]];
-      // 2) Are they matched
-      if (matchedCandies(threeInRow)) {
+      const candiesInColumn = board.map((row) => row[c]);
+      // 2)
+      let sameCandiesInColumn = [];
+      // 3)
+      for (let i = 0; i < candiesInColumn.length; i++) {
+        // 1)
+        const lastCandyInRow =
+          sameCandiesInColumn[sameCandiesInColumn.length - 1];
+        // 2)
+        const siblingCandy = candiesInColumn[i];
+        // 3)
+        if (
+          lastCandyInRow?.candy === siblingCandy?.candy ||
+          sameCandiesInColumn.length === 0
+        ) {
+          sameCandiesInColumn.push(siblingCandy);
+        } else {
+          if (sameCandiesInColumn.length < 3) {
+            sameCandiesInColumn = [];
+            sameCandiesInColumn.push(siblingCandy);
+          }
+        }
+      }
+      console.log(`Column: ${c}`);
+      console.log(candiesInColumn);
+      console.log(sameCandiesInColumn);
+      console.log("------------------------------");
+      // 3)
+      if (
+        sameCandiesInColumn.length > 2 &&
+        matchedCandies(sameCandiesInColumn)
+      ) {
         // If they are, crush them!
-        crushCandies(threeInRow);
+        crushCandies(sameCandiesInColumn);
         //
         didCrushHappen = true;
       }
+
+      break;
     }
   }
 
