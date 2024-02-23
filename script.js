@@ -112,7 +112,7 @@ function onCandyDragEnd() {
 
   // 4) If crush happened, move is valid, otherwise its not
   if (didCrushHappen) {
-    console.log("Score!!!");
+    slideCandies();
   } else {
     // Swap candies back after 0.2s
     setTimeout(() => {
@@ -213,6 +213,22 @@ function crushCandies(candies) {
     candy.candyDIV.classList.add("crushed");
     board[candy.row][candy.col] = "empty";
   });
+}
+
+function slideCandies() {
+  /**  for (let c = 0; c < cols; c++) {
+    let ind = rows - 1;
+    for (let r = cols - 1; r >= 0; r--) {
+      if (board[r][c] !== "blank") {
+        board[ind][c] = board[r][c];
+        ind -= 1;
+      }
+    }
+
+    for (let r = ind; r >= 0; r--) {
+      board[r][c].candyDIV.classList.add("crushed");
+    }
+  } */
 }
 
 // On load
